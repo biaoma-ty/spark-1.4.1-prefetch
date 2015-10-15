@@ -561,7 +561,7 @@
       <workItem from="1443142215661" duration="3382000" />
       <workItem from="1443403560190" duration="5145000" />
       <workItem from="1444284350168" duration="103954000" />
-      <workItem from="1444811733562" duration="20388000" />
+      <workItem from="1444811733562" duration="20221000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1444829613345</created>
@@ -585,7 +585,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="281454000" />
+    <option name="totallyTimeSpent" value="281287000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -642,8 +642,7 @@
     <MESSAGE value="test" />
     <MESSAGE value="client shuffle release buffer blockId finished coding" />
     <MESSAGE value="server shuffle release buffer blockId finished coding" />
-    <MESSAGE value="fix empty list exception while on the first time the blocksToRelease list is empty" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix empty list exception while on the first time the blocksToRelease list is empty" />
+    <option name="LAST_COMMIT_MESSAGE" value="server shuffle release buffer blockId finished coding" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
