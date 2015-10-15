@@ -16,6 +16,7 @@ public class BlockToPrepareInfoSender {
     private final TransportClient client;
     private final PrepareBlocks prepareMessage;
     private final String[] blockIds;
+    private final String[] blocksToRelease;
     private final BlockPreparingListener listener;
     private final PrepareRequestRecievedCallBack requestRecievedCallBack;
 
@@ -23,10 +24,12 @@ public class BlockToPrepareInfoSender {
                                     String appId,
                                     String execId,
                                     String[] blockIds,
+                                    String[] blocksToRelease,
                                     BlockPreparingListener listener) {
         this.client = client;
-        this.prepareMessage = new PrepareBlocks(appId, execId, blockIds);
+        this.prepareMessage = new PrepareBlocks(appId, execId, blockIds, blocksToRelease);
         this.blockIds = blockIds;
+        this.blocksToRelease = blocksToRelease;
         this.listener = listener;
         this.requestRecievedCallBack = new PrepareCallBack();
 

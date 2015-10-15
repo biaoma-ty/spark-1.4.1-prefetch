@@ -19,10 +19,8 @@ package org.apache.spark.network
 
 import java.io.Closeable
 import java.nio.ByteBuffer
-
 import scala.concurrent.{Promise, Await, Future}
 import scala.concurrent.duration.Duration
-
 import org.apache.spark.Logging
 import org.apache.spark.network.buffer.{NioManagedBuffer, ManagedBuffer}
 import org.apache.spark.network.shuffle.{BlockPreparingListener, ShuffleClient, BlockFetchingListener}
@@ -72,7 +70,7 @@ abstract class BlockTransferService extends ShuffleClient with Closeable with Lo
       port: Int,
       execId: String,
       prepareBlockIds: Array[String],
-      prepareOffset: Int,
+      releaseBlocksIds: Array[String],
       listener: BlockPreparingListener): Unit
 
   /**

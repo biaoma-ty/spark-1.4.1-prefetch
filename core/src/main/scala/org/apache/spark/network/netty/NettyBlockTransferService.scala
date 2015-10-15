@@ -18,10 +18,8 @@
 package org.apache.spark.network.netty
 
 import org.apache.spark.network.shuffle.RetryingBlockPreparer.PreparerStarter
-
 import scala.collection.JavaConversions._
 import scala.concurrent.{Future, Promise}
-
 import org.apache.spark.{SecurityManager, SparkConf}
 import org.apache.spark.network._
 import org.apache.spark.network.buffer.ManagedBuffer
@@ -91,7 +89,7 @@ class NettyBlockTransferService(conf: SparkConf, securityManager: SecurityManage
         override def createAndStart(prepareBlockIds: Array[String], releaseBlockIds: Array[String], listener: BlockPreparingListener): Unit = {
           val client = clientFactory.createClient(host, port)
           logDebug("BM@prepareBlocks method client is null? " + client.toString)
-          new BlockToPrepareInfoSender(client, appId, execId, prepareBlockIds.toArray, listener).start()
+          new BlockToPrepareInfoSender(client, appId, execId, prepareBlockIds.toArray,releaseBlockIds ,listener).start()
         }
       }
 

@@ -115,7 +115,7 @@ final class ShuffleBlockFetcherIterator(
 
   private[this] val prepareCount = SparkEnv.get.conf.getInt("spark.shuffle.prepare.count", 5)
 
-  private[this] val releaseRequests = new mutable.Queue[FetchRequest]()
+  private[this] var releaseRequests = new mutable.Queue[FetchRequest]()
 
   /**
    * Whether the iterator is still active. If isZombie is true, the callback interface will no
@@ -170,8 +170,9 @@ final class ShuffleBlockFetcherIterator(
         }
 
         override def onBlockPrepareSuccess(): Unit = {
-          releaseRequests += req
+          releaseRequests = new mutable.Queue[FetchRequest]()
           blocksToRelease = new ArrayBuffer[String]()
+          releaseRequests += req
           logDebug("blocks' info send successed for the blocks to be prepared")
         }
       })

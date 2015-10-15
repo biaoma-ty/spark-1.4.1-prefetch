@@ -32,6 +32,7 @@ public class PrepareBlocks extends BlockTransferMessage{
                 .add("appId", appId)
                 .add("execId", execId)
                 .add("blockIds", Arrays.toString(blockIds))
+                .add("blockIdsToRelease", Arrays.toString(blockIdsToRelease))
                 .toString();
     }
 
@@ -41,7 +42,8 @@ public class PrepareBlocks extends BlockTransferMessage{
             PrepareBlocks o = (PrepareBlocks) obj;
             return Objects.equal(appId, o.appId)
                     && Objects.equal(execId, o.execId)
-                    && Arrays.equals(blockIds, o.blockIds);
+                    && Arrays.equals(blockIds, o.blockIds)
+                    && Arrays.equals(blockIdsToRelease, o.blockIdsToRelease);
         }
         return false;
     }
@@ -50,7 +52,8 @@ public class PrepareBlocks extends BlockTransferMessage{
     public int encodedLength() {
         return Encoders.Strings.encodedLength(appId)
                 + Encoders.Strings.encodedLength(execId)
-                + Encoders.StringArrays.encodedLength(blockIds);
+                + Encoders.StringArrays.encodedLength(blockIds)
+                + Encoders.StringArrays.encodedLength(blockIdsToRelease);
     }
 
     @Override
@@ -68,9 +71,7 @@ public class PrepareBlocks extends BlockTransferMessage{
         String appId = Encoders.Strings.decode(buf);
         String execId = Encoders.Strings.decode(buf);
         String[] blockIds = Encoders.StringArrays.decode(buf);
-        int    releaseBlocksIndex = Integer.valueOf(Encoders.Strings.decode(buf));
-
-        //修改为Int标签方式
-        return new PrepareBlocks(appId, execId, blockIds, releaseBlocksIndex);
+        String[] releaseBlocks = Encoders.StringArrays.decode(buf);
+        return new PrepareBlocks(appId, execId, blockIds, releaseBlocks);
     }
 }
