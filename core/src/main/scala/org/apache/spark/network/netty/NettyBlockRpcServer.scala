@@ -104,6 +104,10 @@ class NettyBlockRpcServer(
           prepareBlocks.blockIds.map(BlockId.apply)
         BlockCache.putAll(blockIds.toArray)
 
+        val blocksToRelease: Seq[BlockId] =
+          prepareBlocks.blockIdsToRelease.map(BlockId.apply)
+        BlockCache.release(blocksToRelease.toArray)
+
         val reduceId:Int = Integer.valueOf(blockIds(0).name.split("_|\\.")(3))
         val shuffleId:Int = Integer.valueOf(blockIds(0).name.split("_|\\.")(1))
         //initialize clientInfo
