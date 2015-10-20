@@ -156,10 +156,17 @@ final class ShuffleBlockFetcherIterator(
     var blockIds = req.blocks.map(_._1.toString)
 
     if (releaseRequests.size > 0) {
-      releaseRequests.foreach(request => {
-        val blocks = releaseRequests.dequeue().blocks.map(_._1.toString)
+      logInfo("releaseRequest length: " + releaseRequests.size)
+//      releaseRequests.foreach(request => {
+//        val blocks = releaseRequests.dequeue().blocks.map(_._1.toString)
+//        blocksToRelease ++= blocks
+//      })
+      val iter = releaseRequests.iterator
+      while (iter.hasNext){
+        val item = iter.next()
+        val blocks = item.blocks.map(_._1.toString)
         blocksToRelease ++= blocks
-      })
+      }
     }
 
     blockIds = blockIds ++ blocksToRelease.seq
