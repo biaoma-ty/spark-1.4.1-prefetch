@@ -53,3 +53,4 @@ modules.xml
 scala_compiler.xml
 uiDesigner.xml
 vcs.xml
+.gitignore

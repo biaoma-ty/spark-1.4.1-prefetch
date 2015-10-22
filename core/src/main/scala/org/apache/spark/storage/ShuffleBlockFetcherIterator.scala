@@ -209,10 +209,13 @@ final class ShuffleBlockFetcherIterator(
             results.put(new SuccessFetchResult(BlockId(blockId), sizeMap(blockId), buf))
             shuffleMetrics.incRemoteBytesRead(buf.size)
             shuffleMetrics.incRemoteBlocksFetched(1)
-            releaseRequests = new mutable.Queue[FetchRequest]()
-            blocksToRelease = new ArrayBuffer[String]()
+            releaseRequests.clear()
+//            releaseRequests = new mutable.Queue[FetchRequest]()
+            blocksToRelease.clear()
+//            blocksToRelease = new ArrayBuffer[String]()
             releaseRequests += req
-            logInfo("BM@Send prepare and release message finished and successed")
+            logInfo("BM@Send prepare and release message finished and successed" + "blocksToRelesase left: "
+             + releaseRequests.size)
           }
           logTrace("Got remote block " + blockId + " after " + Utils.getUsedTimeMs(startTime))
         }
@@ -360,6 +363,10 @@ final class ShuffleBlockFetcherIterator(
       if (prepareRequests.nonEmpty)
         sendPrepareRequest(prepareRequests.dequeue())
       sendRequest(fetchRequests.dequeue())
+    }
+    while (releaseRequests.nonEmpty){
+      if (prepareRequests.nonEmpty)
+        sendPrepareRequest(prepareRequests.dequeue())
     }
 
     val iteratorTry: Try[Iterator[Any]] = result match {
