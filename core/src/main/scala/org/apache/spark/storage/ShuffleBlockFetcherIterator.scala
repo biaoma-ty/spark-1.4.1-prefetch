@@ -316,15 +316,19 @@ final class ShuffleBlockFetcherIterator(
     logDebug("BM@iterator initialize prepare count : " + prepareCount)
 
 
-
-    while (prepareRequests.nonEmpty)
+    for (i <- 1 to 3){
+      logInfo("BM@initialize first 3 prepare message")
       sendPrepareRequest(prepareRequests.dequeue())
+    }
 
     // Send out initial requests for blocks, up to our maxBytesInFlight
-    while (fetchRequests.nonEmpty &&
-      (bytesInFlight == 0 || bytesInFlight + fetchRequests.front.size <= maxBytesInFlight)) {
-      sendRequest(fetchRequests.dequeue())
-    }
+      while (fetchRequests.nonEmpty &&
+        (bytesInFlight == 0 || bytesInFlight + fetchRequests.front.size <= maxBytesInFlight)) {
+        if (prepareRequests.nonEmpty){
+          sendPrepareRequest(prepareRequests.dequeue())
+        }
+        sendRequest(fetchRequests.dequeue())
+      }
 
     val numFetches = remoteRequests.size - fetchRequests.size
     logInfo("Started " + numFetches + " remote fetches in" + Utils.getUsedTimeMs(startTime))

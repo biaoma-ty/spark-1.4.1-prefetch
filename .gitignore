@@ -41,3 +41,15 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+#InteliJ IDEA project settings & meta data
+.idea
+workspace.xml
+.name
+compiler.xml
+encodings.xml
+misc.xml
+modules.xml
+scala_compiler.xml
+uiDesigner.xml
+vcs.xml
