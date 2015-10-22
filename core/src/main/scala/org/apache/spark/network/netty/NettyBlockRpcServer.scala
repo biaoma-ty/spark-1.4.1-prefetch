@@ -46,6 +46,9 @@ class NettyBlockRpcServer(
 
   private val maxBytesInBuffer = SparkEnv.get.conf.getSizeAsMb("spark.reducer.maxSizeInFlight", "48m")*1024*1024
 
+  private var openRequestCount = 0L
+  private var prepareAndReleaseCount = 0L
+
   def getReduceId(blockId: BlockId): Int = {
     val ids = blockId.name.split("_|\\.")
     val reduceId = Integer.valueOf(ids(3))
@@ -71,6 +74,7 @@ class NettyBlockRpcServer(
 //        logTrace(s"Registered streamId $streamId with ${blocks.size} buffers")
 //        responseContext.onSuccess(new StreamHandle(streamId, blocks.size).toByteArray)
 
+        openRequestCount +=1
         val blockIds = openBlocks.blockIds.map(BlockId.apply)
 
         var streamId = 0L
@@ -89,6 +93,7 @@ class NettyBlockRpcServer(
 
           streamId = streamManager.registerStream(blocks.iterator)
         }
+        logInfo(s"BM@Server openReqeustCount $openRequestCount")
         responseContext.onSuccess(new StreamHandle(streamId, blockIds.size).toByteArray)
 
       case uploadBlock: UploadBlock =>
@@ -102,6 +107,7 @@ class NettyBlockRpcServer(
       case prepareBlocks: PrepareBlocks =>
 
         if (prepareBlocks.blockIdsToRelease.size > 0){
+          prepareAndReleaseCount += 1
           val blocksToRelease: Seq[BlockId] =
             prepareBlocks.blockIdsToRelease.map(BlockId.apply)
           BlockCache.release(blocksToRelease.toArray)
@@ -145,6 +151,7 @@ class NettyBlockRpcServer(
 //          }
 //        }
 
+        logInfo(s"BM@Server realseAndPrepareReqeustCount $prepareAndReleaseCount")
         logDebug("async add future buffer finished added buffer's size : " + blocksSize)
         responseContext.onSuccess(new Array[Byte](0))
     }

@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d6b47fc9-06ce-4d6b-9b43-e6c84b563d37" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/PrepareBlocks.java" afterPath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/PrepareBlocks.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="spark-parent_2.10.iws" />
@@ -51,11 +49,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NettyBlockRpcServer.scala" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NettyBlockRpcServer.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.878788">
-              <caret line="58" column="8" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.80987656">
+              <caret line="153" column="80" selection-start-line="153" selection-start-column="80" selection-end-line="153" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -99,10 +97,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShuffleBlockFetcherIterator.scala" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ShuffleBlockFetcherIterator.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4962963">
+            <state vertical-scroll-proportion="-12.181818">
               <caret line="369" column="5" selection-start-line="369" selection-start-column="5" selection-end-line="369" selection-end-column="5" />
               <folding />
             </state>
@@ -160,9 +158,9 @@
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/MapOutputTracker.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/TaskLocation.scala" />
-        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/PrepareBlocks.java" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" />
+        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
       </list>
     </option>
   </component>
@@ -585,7 +583,7 @@
       <workItem from="1444811733562" duration="32858000" />
       <workItem from="1444980273147" duration="17500000" />
       <workItem from="1445305934157" duration="34238000" />
-      <workItem from="1445504267918" duration="2217000" />
+      <workItem from="1445504267918" duration="2545000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1444829613345</created>
@@ -629,11 +627,17 @@
       <option name="project" value="LOCAL" />
       <updated>1445503710953</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="send all the release message&#10;">
+      <created>1445506519926</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1445506519926</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="347879000" />
+    <option name="totallyTimeSpent" value="348207000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -650,6 +654,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
@@ -669,7 +674,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17352614" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -694,7 +698,8 @@
     <MESSAGE value="a snapshot not finished" />
     <MESSAGE value="fix bug that send release message right after prepare message :-(" />
     <MESSAGE value="fix bug that send release message right after prepare message :-(&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug that send release message right after prepare message :-(&#10;" />
+    <MESSAGE value="send all the release message&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="send all the release message&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1090,18 +1095,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala">
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.878788">
-          <caret line="58" column="8" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="8" />
+        <state vertical-scroll-proportion="-12.181818">
+          <caret line="369" column="5" selection-start-line="369" selection-start-column="5" selection-end-line="369" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala">
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4962963">
-          <caret line="369" column="5" selection-start-line="369" selection-start-column="5" selection-end-line="369" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.80987656">
+          <caret line="153" column="80" selection-start-line="153" selection-start-column="80" selection-end-line="153" selection-end-column="80" />
           <folding />
         </state>
       </provider>
