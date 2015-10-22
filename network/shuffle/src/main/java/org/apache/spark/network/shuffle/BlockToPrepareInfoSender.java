@@ -33,6 +33,7 @@ public class BlockToPrepareInfoSender {
         this.listener = listener;
         this.requestRecievedCallBack = new PrepareCallBack();
 
+        logger.info("BM@PrepareInfoSener blocksToRelease size " + blocksToRelease.length);
         logger.debug("BM@BlockPreparer sender constructor called");
     }
 

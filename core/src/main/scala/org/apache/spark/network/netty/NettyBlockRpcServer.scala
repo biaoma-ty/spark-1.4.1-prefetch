@@ -106,6 +106,8 @@ class NettyBlockRpcServer(
 
       case prepareBlocks: PrepareBlocks =>
 
+        logInfo("BM@Server prepareBlocks.blockIdsToRelease.size" + prepareBlocks.blockIdsToRelease.size)
+
         if (prepareBlocks.blockIdsToRelease.size > 0){
           prepareAndReleaseCount += 1
           val blocksToRelease: Seq[BlockId] =

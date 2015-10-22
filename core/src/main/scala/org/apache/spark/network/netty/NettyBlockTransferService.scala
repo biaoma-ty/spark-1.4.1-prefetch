@@ -83,6 +83,7 @@ class NettyBlockTransferService(conf: SparkConf, securityManager: SecurityManage
                               releaseBlockIds: Array[String],
                               listener: BlockPreparingListener): Unit = {
     logDebug(s"send prepare block info to $host:$port (executor id $execId)")
+    logInfo("BM@releaseBlockIds size " + releaseBlockIds.size)
 
     try{
       val blockPrepareStarter = new PreparerStarter {

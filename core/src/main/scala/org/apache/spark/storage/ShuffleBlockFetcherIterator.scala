@@ -171,8 +171,6 @@ final class ShuffleBlockFetcherIterator(
       }
     }
 
-    blockIds = blockIds ++ blocksToRelease.seq
-
     shuffleClient.prepareBlocks(address.host, address.port, address.executorId, blockIds.toArray,
       blocksToRelease.seq.toArray,
       new BlockPreparingListener {
@@ -181,7 +179,6 @@ final class ShuffleBlockFetcherIterator(
         }
 
         override def onBlockPrepareSuccess(): Unit = {
-
           logDebug("blocks' info send successed for the blocks to be prepared")
         }
       })
@@ -360,8 +357,11 @@ final class ShuffleBlockFetcherIterator(
     // Send fetch requests up to maxBytesInFlight
     while (fetchRequests.nonEmpty &&
       (bytesInFlight == 0 || bytesInFlight + fetchRequests.front.size <= maxBytesInFlight)) {
-      if (prepareRequests.nonEmpty)
+      if (prepareRequests.nonEmpty){
         sendPrepareRequest(prepareRequests.dequeue())
+        logInfo("Bm@FetchIterator releaseRequest: " + prepareRequests.front)
+      }
+
       sendRequest(fetchRequests.dequeue())
     }
     while (releaseRequests.nonEmpty){
