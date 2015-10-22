@@ -156,7 +156,8 @@ final class ShuffleBlockFetcherIterator(
     var blockIds = req.blocks.map(_._1.toString)
 
     if (releaseRequests.size > 0) {
-      logInfo("releaseRequest length: " + releaseRequests.size)
+      logInfo("BM@releaseRequest length: " + releaseRequests.size +
+       "releaseRequest content: " + releaseRequests)
 //      releaseRequests.foreach(request => {
 //        val blocks = releaseRequests.dequeue().blocks.map(_._1.toString)
 //        blocksToRelease ++= blocks
@@ -166,6 +167,7 @@ final class ShuffleBlockFetcherIterator(
         val item = iter.next()
         val blocks = item.blocks.map(_._1.toString)
         blocksToRelease ++= blocks
+        logInfo("BM@blocksToRelease: " + blocksToRelease)
       }
     }
 
@@ -179,9 +181,7 @@ final class ShuffleBlockFetcherIterator(
         }
 
         override def onBlockPrepareSuccess(): Unit = {
-          releaseRequests = new mutable.Queue[FetchRequest]()
-          blocksToRelease = new ArrayBuffer[String]()
-          releaseRequests += req
+
           logDebug("blocks' info send successed for the blocks to be prepared")
         }
       })
@@ -209,6 +209,10 @@ final class ShuffleBlockFetcherIterator(
             results.put(new SuccessFetchResult(BlockId(blockId), sizeMap(blockId), buf))
             shuffleMetrics.incRemoteBytesRead(buf.size)
             shuffleMetrics.incRemoteBlocksFetched(1)
+            releaseRequests = new mutable.Queue[FetchRequest]()
+            blocksToRelease = new ArrayBuffer[String]()
+            releaseRequests += req
+            logInfo("BM@Send prepare and release message finished and successed")
           }
           logTrace("Got remote block " + blockId + " after " + Utils.getUsedTimeMs(startTime))
         }
@@ -310,6 +314,8 @@ final class ShuffleBlockFetcherIterator(
     prepareRequests ++= fetchRequests
 
     logDebug("BM@iterator initialize prepare count : " + prepareCount)
+
+
 
     while (prepareRequests.nonEmpty)
       sendPrepareRequest(prepareRequests.dequeue())

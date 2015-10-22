@@ -100,15 +100,16 @@ class NettyBlockRpcServer(
         responseContext.onSuccess(new Array[Byte](0))
 
       case prepareBlocks: PrepareBlocks =>
-        val blockIds: Seq[BlockId] =
-          prepareBlocks.blockIds.map(BlockId.apply)
-        BlockCache.putAll(blockIds.toArray)
 
         if (prepareBlocks.blockIdsToRelease.size > 0){
           val blocksToRelease: Seq[BlockId] =
             prepareBlocks.blockIdsToRelease.map(BlockId.apply)
           BlockCache.release(blocksToRelease.toArray)
         }
+
+        val blockIds: Seq[BlockId] =
+          prepareBlocks.blockIds.map(BlockId.apply)
+        BlockCache.putAll(blockIds.toArray)
 
         val reduceId:Int = Integer.valueOf(blockIds(0).name.split("_|\\.")(3))
         val shuffleId:Int = Integer.valueOf(blockIds(0).name.split("_|\\.")(1))
@@ -119,27 +120,30 @@ class NettyBlockRpcServer(
         val blocksInfo = new BlocksInfo
         val blocksSize = blockIds.foldLeft(0L)((size, i) => size + blockManager.getBlockData(i).size())
         logDebug(s"get prepare message for blocks $blockIds size $blocksSize" )
+        logInfo(s"BM@Server get release message for blocks " + prepareBlocks.blockIdsToRelease.map(BlockId.apply))
         val blockIdsBuf = ArrayBuffer(blockIds: _*)
 //        blocksInfo.append(blockIdsBuf,blocksSize)
 
-        if (openedBlocks.contains(clientInfo)){
-          //Do not need to out another same client added by mabiaocas@gmail.com
-          openedBlocks.get(clientInfo).get.append(blockIdsBuf, blocksSize)
-        } else {
-          openedBlocks.put(clientInfo, blocksInfo)
-        }
+
+        //policy one ReleaseByCount
+//        if (openedBlocks.contains(clientInfo)){
+//          //Do not need to out another same client added by mabiaocas@gmail.com
+//          openedBlocks.get(clientInfo).get.append(blockIdsBuf, blocksSize)
+//        } else {
+//          openedBlocks.put(clientInfo, blocksInfo)
+//        }
 
         // add to cache and request queue(for release later)
         requestQueue.put(blocksInfo)
 
         //check whether satisfy the release condition
-        if (openedBlocks.get(clientInfo).get.size >= maxBytesInBuffer){
-          val requestIter = requestQueue.take().getBlocksIterator()
-          logDebug("BM@Server buffer collect")
-          while (requestIter.hasNext){
-            BlockCache.release(requestIter.next().toArray)
-          }
-        }
+//        if (openedBlocks.get(clientInfo).get.size >= maxBytesInBuffer){
+//          val requestIter = requestQueue.take().getBlocksIterator()
+//          logDebug("BM@Server buffer collect")
+//          while (requestIter.hasNext){
+//            BlockCache.release(requestIter.next().toArray)
+//          }
+//        }
 
         logDebug("async add future buffer finished added buffer's size : " + blocksSize)
         responseContext.onSuccess(new Array[Byte](0))
