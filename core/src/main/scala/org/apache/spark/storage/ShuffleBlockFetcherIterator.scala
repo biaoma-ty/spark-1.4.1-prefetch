@@ -86,8 +86,6 @@ final class ShuffleBlockFetcherIterator(
    */
   private[this] val results = new LinkedBlockingQueue[FetchResult]
 
-  private[this] var blocksToRelease = new ArrayBuffer[String]()
-
   /**
    * Current [[FetchResult]] being processed. We track this so we can release the current buffer
    * in case of a runtime exception when processing the current buffer.
@@ -153,21 +151,24 @@ final class ShuffleBlockFetcherIterator(
     ))
 
     val address = req.address
-    var blockIds = req.blocks.map(_._1.toString)
+    val blockIds = req.blocks.map(_._1.toString)
+    var blocksToRelease = new ArrayBuffer[String]()
 
     if (releaseRequests.size > 0) {
       logInfo("BM@releaseRequest length: " + releaseRequests.size +
        "releaseRequest content: " + releaseRequests)
-//      releaseRequests.foreach(request => {
-//        val blocks = releaseRequests.dequeue().blocks.map(_._1.toString)
-//        blocksToRelease ++= blocks
-//      })
-      val iter = releaseRequests.iterator
-      while (iter.hasNext){
-        val item = iter.next()
-        val blocks = item.blocks.map(_._1.toString)
-        blocksToRelease ++= blocks
-        logInfo("BM@blocksToRelease: " + blocksToRelease)
+
+      val filterReleaseReq = releaseRequests.dequeueAll(_.address.host.eq(req.address.host))
+      if (filterReleaseReq.nonEmpty) {
+        logInfo("BM@FetchIterator sendPrepareRequest prepare host: " + address.host + ":" +
+          address.port + " || release host: " + filterReleaseReq.head.address.host + ": " +
+          filterReleaseReq.head.address.port)
+
+        for (i <- 0 until filterReleaseReq.size) {
+          val blocks = filterReleaseReq(i).blocks.map(_._1.toString)
+          blocksToRelease ++= blocks
+        }
+        logInfo(s"BM@blocksToRelease: $blocksToRelease")
       }
     }
 
@@ -206,10 +207,6 @@ final class ShuffleBlockFetcherIterator(
             results.put(new SuccessFetchResult(BlockId(blockId), sizeMap(blockId), buf))
             shuffleMetrics.incRemoteBytesRead(buf.size)
             shuffleMetrics.incRemoteBlocksFetched(1)
-            releaseRequests.clear()
-//            releaseRequests = new mutable.Queue[FetchRequest]()
-            blocksToRelease.clear()
-//            blocksToRelease = new ArrayBuffer[String]()
             releaseRequests += req
             logInfo("BM@Send prepare and release message finished and successed" + "blocksToRelesase left: "
              + releaseRequests.size)
@@ -315,7 +312,6 @@ final class ShuffleBlockFetcherIterator(
 
     logDebug("BM@iterator initialize prepare count : " + prepareCount)
 
-
     for (i <- 1 to 3){
       logInfo("BM@initialize first 3 prepare message")
       sendPrepareRequest(prepareRequests.dequeue())
@@ -352,7 +348,6 @@ final class ShuffleBlockFetcherIterator(
       case SuccessFetchResult(_, size, _) => bytesInFlight -= size
       case _ =>
     }
-
 
     // Send fetch requests up to maxBytesInFlight
     while (fetchRequests.nonEmpty &&

@@ -62,17 +62,8 @@ class NettyBlockRpcServer(
     val message = BlockTransferMessage.Decoder.fromByteArray(messageBytes)
     logTrace(s"Received request: $message")
 
-    val openedBlocks = new HashMap[ClientInfo, BlocksInfo]
-
-    val requestQueue = new LinkedBlockingQueue[BlocksInfo]
-
     message match {
       case openBlocks: OpenBlocks =>
-//        val blocks: Seq[ManagedBuffer] =
-//          openBlocks.blockIds.map(BlockId.apply).map(blockManager.getBlockData)
-//        val streamId = streamManager.registerStream(blocks.iterator)
-//        logTrace(s"Registered streamId $streamId with ${blocks.size} buffers")
-//        responseContext.onSuccess(new StreamHandle(streamId, blocks.size).toByteArray)
 
         openRequestCount +=1
         val blockIds = openBlocks.blockIds.map(BlockId.apply)
@@ -82,10 +73,9 @@ class NettyBlockRpcServer(
           logDebug(s"get the prepared block " + blockIds(0))
           val queue = new LinkedBlockingQueue[ManagedBuffer]()
           blockIds.foreach(blockId =>{
-            logDebug(s"BM@Server getting block " + blockId.name)
+            logInfo(s"BM@Server getting block " + blockId.name)
             queue.add(BlockCache.get(blockId))
           })
-//          val queue = BlockCache.getAll(blockIds)
           streamId = streamManager.registerStream(queue.iterator())
         } else {
           val blocks: Seq[ManagedBuffer] =
@@ -119,42 +109,9 @@ class NettyBlockRpcServer(
           prepareBlocks.blockIds.map(BlockId.apply)
         BlockCache.putAll(blockIds.toArray)
 
-        val reduceId:Int = Integer.valueOf(blockIds(0).name.split("_|\\.")(3))
-        val shuffleId:Int = Integer.valueOf(blockIds(0).name.split("_|\\.")(1))
-        //initialize clientInfo
-        val clientInfo:ClientInfo = new ClientInfo(shuffleId, reduceId)
-
-        //intialize blocksInfo
-        val blocksInfo = new BlocksInfo
-        val blocksSize = blockIds.foldLeft(0L)((size, i) => size + blockManager.getBlockData(i).size())
-        logDebug(s"get prepare message for blocks $blockIds size $blocksSize" )
         logInfo(s"BM@Server get release message for blocks " + prepareBlocks.blockIdsToRelease.map(BlockId.apply))
-        val blockIdsBuf = ArrayBuffer(blockIds: _*)
-//        blocksInfo.append(blockIdsBuf,blocksSize)
-
-
-        //policy one ReleaseByCount
-//        if (openedBlocks.contains(clientInfo)){
-//          //Do not need to out another same client added by mabiaocas@gmail.com
-//          openedBlocks.get(clientInfo).get.append(blockIdsBuf, blocksSize)
-//        } else {
-//          openedBlocks.put(clientInfo, blocksInfo)
-//        }
-
-        // add to cache and request queue(for release later)
-        requestQueue.put(blocksInfo)
-
-        //check whether satisfy the release condition
-//        if (openedBlocks.get(clientInfo).get.size >= maxBytesInBuffer){
-//          val requestIter = requestQueue.take().getBlocksIterator()
-//          logDebug("BM@Server buffer collect")
-//          while (requestIter.hasNext){
-//            BlockCache.release(requestIter.next().toArray)
-//          }
-//        }
 
         logInfo(s"BM@Server realseAndPrepareReqeustCount $prepareAndReleaseCount")
-        logDebug("async add future buffer finished added buffer's size : " + blocksSize)
         responseContext.onSuccess(new Array[Byte](0))
     }
   }

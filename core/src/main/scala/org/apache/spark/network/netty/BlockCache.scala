@@ -16,6 +16,7 @@ object BlockCache extends  Logging{
   def put(blockId: BlockId): Unit = {
     val data = new FutureCache(blockId)
     blocksCache.put(blockId, data)
+    logInfo(s"BM@Server put $blockId")
   }
 
   def putAll(blockIds: Array[BlockId]): Unit ={
@@ -31,6 +32,7 @@ object BlockCache extends  Logging{
     blockIds.foreach(blockId =>{
       val cache = blocksCache.get(blockId).get
       blocksCache.remove(blockId)
+      logInfo(s"BM@BlockCache release blockId : $blockId")
       cache.get().release()
     })
   }
@@ -62,7 +64,7 @@ class FutureCache{
   }
 }
 
-class RealCache extends  Callable[ManagedBuffer] {
+class RealCache extends  Callable[ManagedBuffer] with Logging{
   val blockManager = SparkEnv.get.blockManager
   var blockId:BlockId = _
   def this(blockId: BlockId) {
@@ -74,5 +76,6 @@ class RealCache extends  Callable[ManagedBuffer] {
 
   override def call(): ManagedBuffer = {
     blockManager.getBlockData(blockId)
+    logInfo(s"BM@Server finised cache block: $blockId")
   }
 }

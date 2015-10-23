@@ -65,6 +65,7 @@ public class PrepareBlocks extends BlockTransferMessage{
         Encoders.Strings.encode(buf, appId);
         Encoders.Strings.encode(buf, execId);
         Encoders.StringArrays.encode(buf, blockIds);
+        Encoders.StringArrays.encode(buf, blockIdsToRelease);
     }
 
     public static PrepareBlocks decode(ByteBuf buf) {
