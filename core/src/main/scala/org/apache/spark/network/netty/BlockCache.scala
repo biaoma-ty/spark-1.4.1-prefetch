@@ -4,78 +4,67 @@ import java.util.concurrent._
 import org.apache.spark.storage.BlockId
 import org.apache.spark.{SparkEnv, Logging}
 import org.apache.spark.network.buffer.ManagedBuffer
-import scala.collection.mutable
 
 /**
  * Created by INFI on 2015/9/18.
  */
 object BlockCache extends  Logging{
 
-  val blocksCache = new mutable.HashMap[BlockId,FutureCache]()
+  val reqBuffer = new ConcurrentHashMap[Seq[BlockId], FutureCacheForBLocks]()
 
-  def put(blockId: BlockId): Unit = {
-    val data = new FutureCache(blockId)
-    blocksCache.put(blockId, data)
-    logInfo(s"BM@Server put $blockId")
+  def releaseAll(blockIds: Array[BlockId]): Unit ={
+    reqBuffer.remove(blockIds)
   }
 
-  def putAll(blockIds: Array[BlockId]): Unit ={
-    blockIds.foreach(blockId => put(blockId))
+  def addAll(blockIds: Seq[BlockId]): Unit = {
+    val data = new FutureCacheForBLocks(blockIds)
+    reqBuffer.put(blockIds, data)
   }
 
-  def get(blockId: BlockId): ManagedBuffer ={
-    val data = blocksCache.get(blockId).get
-    data.get()
-  }
-
-  def release(blockIds: Array[BlockId]): Unit ={
-    blockIds.foreach(blockId =>{
-      val cache = blocksCache.get(blockId).get
-      blocksCache.remove(blockId)
-      logInfo(s"BM@BlockCache release blockId : $blockId")
-      cache.get().release()
-    })
-  }
-
-  def getAll(blockIds: Array[BlockId]): LinkedBlockingQueue[ManagedBuffer] ={
-    val cacheQueue = new LinkedBlockingQueue[ManagedBuffer]()
-    blockIds.foreach(blockId => {
-      cacheQueue.add(get(blockId))
-    })
-    cacheQueue
+  def getAll(blockIds: Seq[BlockId]): LinkedBlockingQueue[ManagedBuffer] = {
+    val buffers = reqBuffer.get(blockIds)
+    buffers.get()
   }
 }
 
-class FutureCache{
-  var blockId: BlockId = _
-  var future: FutureTask[ManagedBuffer] = _
-  def this(blockId: BlockId) {
+class FutureCacheForBLocks {
+  var blockIds: Seq[BlockId] = _
+  var future:FutureTask[LinkedBlockingQueue[ManagedBuffer]] = _
+
+  def this (blockIds: Seq[BlockId]) {
     this()
-    this.blockId = blockId
-    future = new FutureTask[ManagedBuffer](new RealCache(blockId))
+    this.blockIds = blockIds
+    future = new FutureTask[LinkedBlockingQueue[ManagedBuffer]](new RealCacheForBlocks(blockIds))
 
     val executor = Executors.newFixedThreadPool(1)
 
     executor.submit(future)
   }
 
-  def get(): ManagedBuffer = {
+  def get():LinkedBlockingQueue[ManagedBuffer] = {
     future.get()
   }
 }
 
-class RealCache extends  Callable[ManagedBuffer] with Logging{
+class RealCacheForBlocks extends  Callable[LinkedBlockingQueue[ManagedBuffer]] {
   val blockManager = SparkEnv.get.blockManager
-  var blockId:BlockId = _
-  def this(blockId: BlockId) {
+  var blockIds: Seq[BlockId] = _
+
+  def this(blockIds: Seq[BlockId]) {
     this()
-    this.blockId = blockId
+    this.blockIds = blockIds
   }
 
-
-
-  override def call(): ManagedBuffer = {
-    blockManager.getBlockData(blockId)
-    logInfo(s"BM@Server finised cache block: $blockId")
+  override def call(): LinkedBlockingQueue[ManagedBuffer] = {
+    val resQueue = new LinkedBlockingQueue[ManagedBuffer]()
+    val iterator = blockIds.iterator
+    while (iterator.hasNext){
+      val blockId = iterator.next()
+      if (blockId != null) {
+        val data = blockManager.getBlockData(blockId)
+        resQueue.add(data)
+      }
+    }
+    resQueue
   }
 }

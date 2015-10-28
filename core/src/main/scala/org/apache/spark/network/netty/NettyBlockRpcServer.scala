@@ -28,7 +28,6 @@ import org.apache.spark.network.server.{OneForOneStreamManager, RpcHandler, Stre
 import org.apache.spark.network.shuffle.protocol._
 import org.apache.spark.serializer.Serializer
 import org.apache.spark.storage.{BlockId, StorageLevel}
-import scala.collection.mutable.{ArrayBuffer, HashMap}
 
 /**
  * Serves requests to open blocks by simply registering one chunk per block requested.
@@ -38,16 +37,15 @@ import scala.collection.mutable.{ArrayBuffer, HashMap}
  * is equivalent to one Spark-level shuffle block.
  */
 class NettyBlockRpcServer(
-    serializer: Serializer,
-    blockManager: BlockDataManager)
+                           serializer: Serializer,
+                           blockManager: BlockDataManager)
   extends RpcHandler with Logging {
 
   private val streamManager = new OneForOneStreamManager()
 
-  private val maxBytesInBuffer = SparkEnv.get.conf.getSizeAsMb("spark.reducer.maxSizeInFlight", "48m")*1024*1024
-
   private var openRequestCount = 0L
   private var prepareAndReleaseCount = 0L
+  private var prepareAndReleaseCount2 = 0L
 
   def getReduceId(blockId: BlockId): Int = {
     val ids = blockId.name.split("_|\\.")
@@ -56,9 +54,9 @@ class NettyBlockRpcServer(
   }
 
   override def receive(
-      client: TransportClient,
-      messageBytes: Array[Byte],
-      responseContext: RpcResponseCallback): Unit = {
+                        client: TransportClient,
+                        messageBytes: Array[Byte],
+                        responseContext: RpcResponseCallback): Unit = {
     val message = BlockTransferMessage.Decoder.fromByteArray(messageBytes)
     logTrace(s"Received request: $message")
 
@@ -70,12 +68,9 @@ class NettyBlockRpcServer(
 
         var streamId = 0L
         if (blockIds(0).isShuffle) {
-          logDebug(s"get the prepared block " + blockIds(0))
-          val queue = new LinkedBlockingQueue[ManagedBuffer]()
-          blockIds.foreach(blockId =>{
-            logInfo(s"BM@Server getting block " + blockId.name)
-            queue.add(BlockCache.get(blockId))
-          })
+          logDebug(s"get the prepared block $blockIds")
+
+          val queue = BlockCache.getAll(blockIds)
           streamId = streamManager.registerStream(queue.iterator())
         } else {
           val blocks: Seq[ManagedBuffer] =
@@ -97,21 +92,31 @@ class NettyBlockRpcServer(
       case prepareBlocks: PrepareBlocks =>
 
         logInfo("BM@Server prepareBlocks.blockIdsToRelease.size" + prepareBlocks.blockIdsToRelease.size)
+        prepareAndReleaseCount2 += 1
 
         if (prepareBlocks.blockIdsToRelease.size > 0){
           prepareAndReleaseCount += 1
           val blocksToRelease: Seq[BlockId] =
             prepareBlocks.blockIdsToRelease.map(BlockId.apply)
-          BlockCache.release(blocksToRelease.toArray)
+          BlockCache.releaseAll(blocksToRelease.toArray)
+
+          logInfo(s"BM@Server get release message for blocks " + blocksToRelease)
         }
 
-        val blockIds: Seq[BlockId] =
-          prepareBlocks.blockIds.map(BlockId.apply)
-        BlockCache.putAll(blockIds.toArray)
+        if (prepareBlocks.blockIds.size > 0) {
+          val blockIds: Seq[BlockId] =
+            prepareBlocks.blockIds.map(BlockId.apply)
+          BlockCache.addAll(blockIds)
 
-        logInfo(s"BM@Server get release message for blocks " + prepareBlocks.blockIdsToRelease.map(BlockId.apply))
+          logInfo(s"BM@Server get prepare message from " + client.toString + s" for blocks " + blockIds)
+        }
 
-        logInfo(s"BM@Server realseAndPrepareReqeustCount $prepareAndReleaseCount")
+        val blocksToReleaseArray = prepareBlocks.blockIdsToRelease.map(BlockId.apply)
+        for (i <- 0 until  blocksToReleaseArray.length) {
+          logInfo(s"BM@Server get release message for block $i " + blocksToReleaseArray(i))
+        }
+
+        logInfo(s"BM@Server realseAndPrepareReqeustCount $prepareAndReleaseCount prepareAndReleaseCount2: $prepareAndReleaseCount2")
         responseContext.onSuccess(new Array[Byte](0))
     }
   }

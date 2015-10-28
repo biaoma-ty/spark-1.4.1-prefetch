@@ -167,8 +167,8 @@ final class ShuffleBlockFetcherIterator(
         for (i <- 0 until filterReleaseReq.size) {
           val blocks = filterReleaseReq(i).blocks.map(_._1.toString)
           blocksToRelease ++= blocks
+          logInfo(s"BM@blocksToRelease: $blocksToRelease")
         }
-        logInfo(s"BM@blocksToRelease: $blocksToRelease")
       }
     }
 
@@ -359,10 +359,11 @@ final class ShuffleBlockFetcherIterator(
 
       sendRequest(fetchRequests.dequeue())
     }
-    while (releaseRequests.nonEmpty){
-      if (prepareRequests.nonEmpty)
-        sendPrepareRequest(prepareRequests.dequeue())
-    }
+
+//    while (releaseRequests.nonEmpty){
+//      if (prepareRequests.nonEmpty)
+//        sendPrepareRequest(prepareRequests.dequeue())
+//    }
 
     val iteratorTry: Try[Iterator[Any]] = result match {
       case FailureFetchResult(_, e) =>
