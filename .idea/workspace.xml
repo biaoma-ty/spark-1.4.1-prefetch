@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d6b47fc9-06ce-4d6b-9b43-e6c84b563d37" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java" afterPath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java" afterPath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="spark-parent_2.10.iws" />
@@ -132,12 +130,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShuffleBlockFetcherIterator.scala" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ShuffleBlockFetcherIterator.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.1818182">
-              <caret line="285" column="11" selection-start-line="285" selection-start-column="11" selection-end-line="285" selection-end-column="11" />
-              <folding />
+            <state vertical-scroll-proportion="0.77172506">
+              <caret line="462" column="0" selection-start-line="462" selection-start-column="0" selection-end-line="462" selection-end-column="0" />
+              <folding>
+                <element signature="e#836#883#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -164,10 +164,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OneForOneBlockFetcher.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OneForOneBlockFetcher.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36069652">
+            <state vertical-scroll-proportion="0.0">
               <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
               <folding />
             </state>
@@ -213,12 +213,12 @@
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/TaskLocation.scala" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/BlockToPrepareInfoSender.java" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/PrepareBlocks.java" />
-        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/BlockCache.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java" />
+        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" />
       </list>
     </option>
   </component>
@@ -643,7 +643,7 @@
       <workItem from="1445305934157" duration="34238000" />
       <workItem from="1445504267918" duration="26866000" />
       <workItem from="1445665886019" duration="4342000" />
-      <workItem from="1445996619366" duration="10150000" />
+      <workItem from="1445996619366" duration="10262000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1444829613345</created>
@@ -717,11 +717,17 @@
       <option name="project" value="LOCAL" />
       <updated>1446026231315</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Fix the Zero-side bug">
+      <created>1446026469560</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1446026469560</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="387020000" />
+    <option name="totallyTimeSpent" value="387132000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -786,7 +792,8 @@
     <MESSAGE value="and some log to debug&#10;" />
     <MESSAGE value="fixed the bug of empty list error while during the first time the release blocks is empty&#10;" />
     <MESSAGE value="Fixed the bug of concurrent HashMap conflict and modified the block access pattern(Not to use single thread per block but single request)&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the bug of concurrent HashMap conflict and modified the block access pattern(Not to use single thread per block but single request)&#10;" />
+    <MESSAGE value="Fix the Zero-side bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix the Zero-side bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1177,14 +1184,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.1818182">
-          <caret line="285" column="11" selection-start-line="285" selection-start-column="11" selection-end-line="285" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/BlockCache.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1224,9 +1223,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36069652">
+        <state vertical-scroll-proportion="0.0">
           <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.77172506">
+          <caret line="462" column="0" selection-start-line="462" selection-start-column="0" selection-end-line="462" selection-end-column="0" />
+          <folding>
+            <element signature="e#836#883#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
