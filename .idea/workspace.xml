@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d6b47fc9-06ce-4d6b-9b43-e6c84b563d37" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/BlockCache.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/BlockCache.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" afterPath="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java" afterPath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java" afterPath="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="spark-parent_2.10.iws" />
@@ -51,12 +51,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NettyBlockRpcServer.scala" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NettyBlockRpcServer.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4903475">
-              <caret line="108" column="37" selection-start-line="108" selection-start-column="37" selection-end-line="108" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="105" column="10" selection-start-line="105" selection-start-column="10" selection-end-line="105" selection-end-column="10" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RetryingBlockPreparer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding>
+                <element signature="e#2272#2273#0" expanded="true" />
+                <element signature="e#2307#2308#0" expanded="true" />
+                <element signature="e#3966#4190#0" expanded="true" />
+                <element signature="e#4189#4190#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,43 +112,6 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="49" column="31" selection-start-line="49" selection-start-column="31" selection-end-line="49" selection-end-column="31" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BlockToPrepareInfoSender.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/BlockToPrepareInfoSender.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="20" selection-start-line="57" selection-start-column="20" selection-end-line="57" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1885#1886#0" expanded="false" />
-                <element signature="e#1941#1942#0" expanded="false" />
-                <element signature="e#2005#2006#0" expanded="false" />
-                <element signature="e#2062#2063#0" expanded="false" />
-                <element signature="e#2623#2624#0" expanded="false" />
-                <element signature="e#2708#2709#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TransportClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/network/common/src/main/java/org/apache/spark/network/client/TransportClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="135" column="14" selection-start-line="135" selection-start-column="14" selection-end-line="135" selection-end-column="14" />
-              <folding>
-                <element signature="e#0#8612#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#3362#3363#0" expanded="false" />
-                <element signature="e#3417#3418#0" expanded="false" />
-                <element signature="e#7840#7841#0" expanded="false" />
-                <element signature="e#7878#7879#0" expanded="false" />
-                <element signature="e#7938#7939#0" expanded="false" />
-                <element signature="e#7978#7979#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -180,7 +158,17 @@
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="85" column="31" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="31" />
+              <caret line="83" column="57" selection-start-line="83" selection-start-column="57" selection-end-line="83" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OneForOneBlockFetcher.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.36069652">
+              <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -218,18 +206,19 @@
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/shuffle/hash/BlockStoreShuffleFetcher.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/BlockInfo.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/nio/NioBlockTransferService.scala" />
-        <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/ExternalShuffleClient.java" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/ShuffleClient.java" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/BlockTransferService.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/MapOutputTracker.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/TaskLocation.scala" />
-        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/BlockToPrepareInfoSender.java" />
         <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/PrepareBlocks.java" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/BlockCache.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
+        <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java" />
+        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala" />
+        <option value="$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java" />
       </list>
     </option>
   </component>
@@ -305,7 +294,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Disruptor/disruptor/build.gradle" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="SparkDep&#9;null&#9;null&#10;Retrying&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.RetryingBlockFetcher&#10;BlockC&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/core/src/main/scala/org/apache/spark/network/netty/BlockCache.scala&#10;Host&#9;null&#9;null&#10;MapOut&#9;null&#9;null&#10;Block&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/network/shuffle/src/main/java/org/apache/spark/network/shuffle/BlockToPrepareInfoSender.java&#10;Netty&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala&#10;Nio&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/core/src/main/scala/org/apache/spark/network/nio/NioBlockTransferService.scala&#10;Shuf&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/ShuffleClient.java&#10;DirectBuf&#9;PSI&#9;JAVA://sun.nio.ch.DirectBuffer&#10;SparkSu&#9;null&#9;null&#10;shuff&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;Hash&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/shuffle/hash/HashShuffleReader.scala&#10;ite&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;Iter&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;sequ&#9;null&#9;null&#10;S&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;BlockMa&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/BlockManager.scala&#10;ShuffleBlock&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;main&#9;null&#9;null&#10;spark-env.sh&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/conf/spark-env.sh.template&#10;SparkEnv&#9;null&#9;null&#10;ShuffleMan&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/shuffle/ShuffleManager.scala&#10;Prepare&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/PrepareBlocks.java&#10;Shuffle&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;NettyRpc&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala&#10;ShuffledR&#9;null&#9;null&#10;SortShuffleW&#9;null&#9;null&#10;BlockStoreShu&#9;null&#9;null&#10;Transport&#9;PSI&#9;JAVA://org.apache.spark.network.client.TransportClient&#10;blockpre&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/BlockPreparingListener.java&#10;nio&#9;null&#9;null&#10;External&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/ExternalShuffleClient.java&#10;ShuffleCli&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.ShuffleClient&#10;Retry&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java&#10;Open&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.protocol.OpenBlocks&#10;BlockTransfer&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.protocol.BlockTransferMessage&#10;Shuff&#9;null&#9;null&#10;netty&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
+    <property name="SearchEverywhereHistoryKey" value="One&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.OneForOneBlockFetcher&#10;Netty&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala&#10;Retry&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java&#10;SparkDep&#9;null&#9;null&#10;Retrying&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.RetryingBlockFetcher&#10;BlockC&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/core/src/main/scala/org/apache/spark/network/netty/BlockCache.scala&#10;Host&#9;null&#9;null&#10;MapOut&#9;null&#9;null&#10;Block&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/network/shuffle/src/main/java/org/apache/spark/network/shuffle/BlockToPrepareInfoSender.java&#10;Nio&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/spark-1.4.1-prefetch/core/src/main/scala/org/apache/spark/network/nio/NioBlockTransferService.scala&#10;Shuf&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/ShuffleClient.java&#10;DirectBuf&#9;PSI&#9;JAVA://sun.nio.ch.DirectBuffer&#10;SparkSu&#9;null&#9;null&#10;shuff&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;Hash&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/shuffle/hash/HashShuffleReader.scala&#10;ite&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;Iter&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;sequ&#9;null&#9;null&#10;S&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;BlockMa&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/BlockManager.scala&#10;ShuffleBlock&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;main&#9;null&#9;null&#10;spark-env.sh&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/conf/spark-env.sh.template&#10;SparkEnv&#9;null&#9;null&#10;ShuffleMan&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/shuffle/ShuffleManager.scala&#10;Prepare&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/PrepareBlocks.java&#10;Shuffle&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/storage/ShuffleBlockFetcherIterator.scala&#10;NettyRpc&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala&#10;ShuffledR&#9;null&#9;null&#10;SortShuffleW&#9;null&#9;null&#10;BlockStoreShu&#9;null&#9;null&#10;Transport&#9;PSI&#9;JAVA://org.apache.spark.network.client.TransportClient&#10;blockpre&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/BlockPreparingListener.java&#10;nio&#9;null&#9;null&#10;External&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/network/shuffle/src/main/java/org/apache/spark/network/shuffle/ExternalShuffleClient.java&#10;ShuffleCli&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.ShuffleClient&#10;Open&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.protocol.OpenBlocks&#10;BlockTransfer&#9;PSI&#9;JAVA://org.apache.spark.network.shuffle.protocol.BlockTransferMessage&#10;Shuff&#9;null&#9;null&#10;netty&#9;FILE&#9;file://E:/GitHub/spark-1.4.1/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala" />
     <property name="FullScreen" value="false" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.hocon.settings.HoconProjectSettingsConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
@@ -654,7 +643,7 @@
       <workItem from="1445305934157" duration="34238000" />
       <workItem from="1445504267918" duration="26866000" />
       <workItem from="1445665886019" duration="4342000" />
-      <workItem from="1445996619366" duration="9933000" />
+      <workItem from="1445996619366" duration="10150000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1444829613345</created>
@@ -722,11 +711,17 @@
       <option name="project" value="LOCAL" />
       <updated>1445585171098</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Fixed the bug of concurrent HashMap conflict and modified the block access pattern(Not to use single thread per block but single request)&#10;">
+      <created>1446026231315</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1446026231315</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="386803000" />
+    <option name="totallyTimeSpent" value="387020000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -743,6 +738,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
@@ -762,7 +758,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35817575" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -812,13 +807,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/protocol/BlockTransferMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/conf/spark-env.sh.template">
       <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
         <state />
@@ -923,6 +911,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="100" column="22" selection-start-line="100" selection-start-column="22" selection-end-line="100" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1000,13 +989,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16666667">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -1185,14 +1167,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="85" column="31" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/cluster/SparkDeploySchedulerBackend.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1221,8 +1195,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockRpcServer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4903475">
-          <caret line="108" column="37" selection-start-line="108" selection-start-column="37" selection-end-line="108" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="10" selection-start-line="105" selection-start-column="10" selection-end-line="105" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/RetryingBlockPreparer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#2272#2273#0" expanded="true" />
+            <element signature="e#2307#2308#0" expanded="true" />
+            <element signature="e#3966#4190#0" expanded="true" />
+            <element signature="e#4189#4190#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/network/netty/NettyBlockTransferService.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="83" column="57" selection-start-line="83" selection-start-column="57" selection-end-line="83" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network/shuffle/src/main/java/org/apache/spark/network/shuffle/OneForOneBlockFetcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36069652">
+          <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
           <folding />
         </state>
       </provider>

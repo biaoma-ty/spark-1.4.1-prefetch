@@ -86,7 +86,8 @@ public class OneForOneBlockFetcher {
    */
   public void start() {
     if (blockIds.length == 0) {
-      throw new IllegalArgumentException("Zero-sized blockIds array");
+//      throw new IllegalArgumentException("Zero-sized blockIds array");
+      logger.info("Zero-sized blockIds array");
     }
 
     client.sendRpc(openMessage.toByteArray(), new RpcResponseCallback() {
