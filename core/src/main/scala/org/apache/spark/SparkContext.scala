@@ -617,7 +617,6 @@ class SparkContext(config: SparkConf) extends Logging with ExecutorAllocationCli
     } else {
       localProperties.get.setProperty(key, value)
     }
-  }
 
   /**
    * Get a local property set in this thread, or null if it is missing. See
