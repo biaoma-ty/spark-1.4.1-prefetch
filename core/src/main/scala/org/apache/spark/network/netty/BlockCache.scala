@@ -3,7 +3,7 @@ package org.apache.spark.network.netty
 import java.util.concurrent._
 import org.apache.spark.storage.BlockId
 import org.apache.spark.{SparkEnv, Logging}
-import org.apache.spark.network.buffer.ManagedBuffer
+import org.apache.spark.network.buffer.{NioManagedBuffer, NettyManagedBuffer, ManagedBuffer}
 
 /**
  * Created by INFI on 2015/9/18.
@@ -13,6 +13,13 @@ object BlockCache extends  Logging{
   val reqBuffer = new ConcurrentHashMap[Seq[BlockId], FutureCacheForBLocks]()
 
   def releaseAll(blockIds: Array[BlockId]): Unit ={
+
+    //    val dataCollections = getAll(blockIds)
+    //    while ((dataCollections != null) && !dataCollections.isEmpty) {
+    //      val data = dataCollections.peek()
+    //      data.release()
+    //    }
+    reqBuffer.get(blockIds).release()
     reqBuffer.remove(blockIds)
   }
 
@@ -25,18 +32,26 @@ object BlockCache extends  Logging{
     val buffers = reqBuffer.get(blockIds)
     buffers.get()
   }
+
+  def containsAll(blockIds: Seq[BlockId]): Boolean ={
+    if (reqBuffer.containsKey(blockIds))
+      return true
+    return  false
+  }
 }
 
 class FutureCacheForBLocks {
   var blockIds: Seq[BlockId] = _
   var future:FutureTask[LinkedBlockingQueue[ManagedBuffer]] = _
+  var real:RealCacheForBlocks = _
 
   def this (blockIds: Seq[BlockId]) {
     this()
     this.blockIds = blockIds
-    future = new FutureTask[LinkedBlockingQueue[ManagedBuffer]](new RealCacheForBlocks(blockIds))
+    real = new RealCacheForBlocks(blockIds)
+    future = new FutureTask[LinkedBlockingQueue[ManagedBuffer]](real)
 
-    val executor = Executors.newFixedThreadPool(1)
+    val executor = Executors.newCachedThreadPool()
 
     executor.submit(future)
   }
@@ -44,25 +59,33 @@ class FutureCacheForBLocks {
   def get():LinkedBlockingQueue[ManagedBuffer] = {
     future.get()
   }
+
+  def release(): Unit ={
+    real.release()
+  }
 }
 
 class RealCacheForBlocks extends  Callable[LinkedBlockingQueue[ManagedBuffer]] {
   val blockManager = SparkEnv.get.blockManager
   var blockIds: Seq[BlockId] = _
+  val resQueue = new LinkedBlockingQueue[ManagedBuffer]()
 
   def this(blockIds: Seq[BlockId]) {
     this()
     this.blockIds = blockIds
   }
 
+  def release(): Unit ={
+    resQueue.removeAll(resQueue)
+  }
+
   override def call(): LinkedBlockingQueue[ManagedBuffer] = {
-    val resQueue = new LinkedBlockingQueue[ManagedBuffer]()
     val iterator = blockIds.iterator
     while (iterator.hasNext){
       val blockId = iterator.next()
       if (blockId != null) {
         val data = blockManager.getBlockData(blockId)
-        resQueue.add(data)
+        resQueue.add(new NioManagedBuffer(data.nioByteBuffer()))
       }
     }
     resQueue
